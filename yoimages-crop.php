@@ -33,4 +33,4 @@ if (! defined ( 'ABSPATH' )) {
 
 define ( 'YOIMG_CROP_PLUGIN_PATH', dirname ( __FILE__ ) );
 require_once (YOIMG_CROP_PLUGIN_PATH . '/vendor/sirulli/yoimages-commons/inc/init.php');
-require_once (YOIMG_CROP_PLUGIN_PATH . '/inc/init.php');
+yoimg_register_module( 'yoimages-crop', YOIMG_CROP_PLUGIN_PATH, true );
