@@ -78,6 +78,7 @@ function yoimgInitCropImage(doImmediateCrop) {
 			if (doImmediateCrop) {
 				yoimgCropImage();
 			}
+			adaptCropPreviewWidth();
 		}).cropper({
 			aspectRatio : yoimg_cropper_aspect_ratio,
 			minWidth : yoimg_cropper_min_width,
@@ -143,7 +144,6 @@ function yoimgInitCropImage(doImmediateCrop) {
 				yoimgLoadCropThickbox(currEl.attr('href') + '&immediatecrop=1', true);
 			});
 		});
-		setTimeout(adaptCropPreviewWidth, 100);
 	}
 }
 
@@ -174,8 +174,8 @@ function yoimgCropImage() {
 			jQuery('.message.yoimg-crop-smaller').hide();
 		}
 		jQuery('#yoimg-cropper-wrapper .spinner').css('display', 'none');
+		jQuery(window).resize();
 	});
-
 }
 
 function yoimgGetUrlVars() {
