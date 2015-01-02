@@ -30,8 +30,8 @@ function yoimg_crop_image() {
 		}
 		$cropped_image_sizes = yoimg_get_image_sizes( $req_size );
 		$is_crop_smaller = $full_image_attributes[1] < $cropped_image_sizes['width'] || $full_image_attributes[2] < $cropped_image_sizes['height'];
-		$crop_width = min( $cropped_image_sizes['width'], $full_image_attributes[1] );
-		$crop_height = min( $cropped_image_sizes['height'], $full_image_attributes[2] );
+		$crop_width = $cropped_image_sizes['width'];
+		$crop_height = $cropped_image_sizes['height'];
 		$img_editor->crop( $req_x, $req_y, $req_width, $req_height, $crop_width, $crop_height, false );
 		$img_editor->set_quality( $req_quality );
 		$img_path_parts = pathinfo($img_path);

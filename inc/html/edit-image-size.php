@@ -67,7 +67,6 @@ if ( $has_replacement ) {
 							if ( $size_value['crop'] == 1 ) {
 								$is_current_size = $size_key === $yoimg_image_size;
 								if ( $is_current_size ) {
-									$is_full_image_too_small = $full_image_attributes[1] < $size_value['width'] && $full_image_attributes[2] < $size_value['height'];
 									$curr_size_width = $size_value['width'];
 									$curr_size_height = $size_value['height'];
 								}
@@ -97,6 +96,7 @@ if ( $has_replacement ) {
 						<div class="media-sidebar">
 							<div class="attachment-details">
 								<?php
+								$is_crop_smaller = false;
 								$this_crop_exists = ! empty( $attachment_metadata['sizes'][$yoimg_image_size]['file'] );
 								if ( $this_crop_exists ) {
 								?>
@@ -112,36 +112,27 @@ if ( $has_replacement ) {
 								?>
 									<img src="<?php echo $image_attributes[0] . '?' . mt_rand( 1000, 9999 ); ?>" style="max-width: 100%;" />
 									<?php
-									$is_crop_smaller = $attachment_metadata['sizes'][$yoimg_image_size]['width'] < $curr_size_width || $attachment_metadata['sizes'][$yoimg_image_size]['height'] < $curr_size_height;
-									?>
-									<div class="message error yoimg-crop-smaller" style="display:<?php echo $is_crop_smaller ? 'block' : 'none'; ?>;">
-										<p><?php printf ( __( 'This crop is smaller (%1$sx%2$s) than expected (%3$sx%4$s), you may replace the original image for this crop format using the replace button here below and then cropping it', YOIMG_DOMAIN ), $attachment_metadata['sizes'][$yoimg_image_size]['width'], $attachment_metadata['sizes'][$yoimg_image_size]['height'], $curr_size_width, $curr_size_height ); ?></p>
-									</div>
-								<?php
+									$is_crop_smaller = $full_image_attributes[1] < $curr_size_width || $full_image_attributes[2] < $curr_size_height;
 								} else {
 									$img_url_parts = parse_url( $image_attributes[0] );
 									$img_path_parts = pathinfo( $img_url_parts['path'] );
-									$expected_crop_width = min( $cropped_image_sizes['width'], $full_image_attributes[1] );
-									$expected_crop_height = min( $cropped_image_sizes['height'], $full_image_attributes[2] );
+									$expected_crop_width = $cropped_image_sizes['width'];
+									$expected_crop_height = $cropped_image_sizes['height'];
 									$expected_url = $img_path_parts['dirname'] . '/' . yoimg_get_cropped_image_filename( $img_path_parts['filename'], $expected_crop_width, $expected_crop_height, $img_path_parts['extension'] );
 									?>
 									<div class="yoimg-not-existing-crop">
 										<img src="<?php echo $expected_url; ?>" style="max-width: 100%;" />
 										<div class="message error">
-											<?php
-											if ( $is_full_image_too_small ) {
-											?>
-												<p><?php _e( 'Crop cannot be generated because original image is too small, actual image size will be used, but you may want to replace the original image for this crop format using the replace button here below', YOIMG_DOMAIN ); ?></p>
-											<?php
-											} else {
-											?>
 												<p><?php _e( 'Crop not generated yet, use the crop button here below to generate it', YOIMG_DOMAIN ); ?></p>
-											<?php
-											}
-											?>
 										</div>
 									</div>
 								<?php } ?>
+								
+								<div class="message error yoimg-crop-smaller" style="display:<?php echo $is_crop_smaller ? 'block' : 'none'; ?>;">
+									<?php //TODO ?>
+									<p><?php _e( 'This crop is smaller (%1$sx%2$s) than expected (%3$sx%4$s), you may replace the original image for this crop format using the replace button here below and then cropping it', YOIMG_DOMAIN ); ?></p>
+								</div>
+								
 								<h3 id="yoimg-cropper-preview-title"><?php _e( 'Crop preview', YOIMG_DOMAIN ); ?></h3>
 								<div id="yoimg-cropper-preview"></div>
 								<div class="yoimg-cropper-quality-wrapper">
@@ -160,8 +151,8 @@ if ( $has_replacement ) {
 									</select>
 								</div>
 								<div class="yoimg-crop-now-wrapper">
-									<a href="<?php echo $is_full_image_too_small ? 'javascript:;' : 'javascript:yoimgCropImage();';?>"
-											class="button media-button button-primary button-large media-button-select <?php echo $is_full_image_too_small ? 'disabled' : '';?>">
+									<a href="javascript:yoimgCropImage();"
+											class="button media-button button-primary button-large media-button-select">
 										<?php _e( 'Crop', YOIMG_DOMAIN ); ?> <?php echo $yoimg_image_size; ?>
 									</a>
 									<span class="spinner"></span>
