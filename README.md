@@ -4,7 +4,7 @@ YoImages Crop is a Wordpress plugin that provides image cropping functions.
 
 YoImages Crop is part of a suite of modules which aim is to add better image handling capabilities to the Wordpress core, read more about [YoImages Crop](https://github.com/sirulli/yoimages#image-cropping-tools "").
 
-You can get YoImages Crop along with other YoImages modules [here](https://github.com/sirulli/yoimages "") or you can install it as a stand alone Wordpress plugin following the step described in the next paragraph.
+You can get YoImages Crop along with other YoImages modules [here](https://github.com/sirulli/yoimages "") or you can install it as a stand alone Wordpress plugin following the steps described in the next paragraph.
 
 ##Install YoImages Crop from sources
 
