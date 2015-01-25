@@ -17,7 +17,11 @@ if ( ! $is_partial_rendering ) {
 
 $attachment_metadata = wp_get_attachment_metadata( $yoimg_image_id );
 $cropped_image_sizes = yoimg_get_image_sizes( $yoimg_image_size );
-$replacement = $attachment_metadata['yoimg_attachment_metadata']['crop'][$yoimg_image_size]['replacement'];
+if ( isset( $attachment_metadata['yoimg_attachment_metadata']['crop'][$yoimg_image_size]['replacement'] ) ) {
+	$replacement = $attachment_metadata['yoimg_attachment_metadata']['crop'][$yoimg_image_size]['replacement'];
+} else {
+	$replacement = null;
+}
 $has_replacement = ! empty ( $replacement ) && get_post( $replacement );
 if ( $has_replacement ) {
 	$full_image_attributes = wp_get_attachment_image_src( $replacement, 'full' );
@@ -45,7 +49,11 @@ if ( $has_replacement ) {
 	?>
 	yoimg_cropper_aspect_ratio = <?php echo $cropped_image_sizes['width']; ?> / <?php echo $cropped_image_sizes['height']; ?>;
 	<?php
-	$crop_x = $attachment_metadata['yoimg_attachment_metadata']['crop'][$yoimg_image_size]['x'];
+	if ( isset( $attachment_metadata['yoimg_attachment_metadata']['crop'][$yoimg_image_size]['x'] ) ) {
+		$crop_x = $attachment_metadata['yoimg_attachment_metadata']['crop'][$yoimg_image_size]['x'];
+	} else {
+		$crop_x = null;
+	}
 	if ( is_numeric( $crop_x ) && $crop_x >= 0 && ( ! $is_immediate_cropping ) ) {
 	?>
 		yoimg_prev_crop_x = <?php echo $crop_x; ?>;
