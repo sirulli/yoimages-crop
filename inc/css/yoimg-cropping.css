@@ -32,7 +32,7 @@
 	border: none !important;
 }
 
-#yoimg-cropper-wrapper .message.error.yoimg-crop-smaller {
+#yoimg-cropper-wrapper .message.error.yoimg-crop-smaller, #yoimg-cropper-wrapper .message.error.yoimg-crop-retina-smaller {
 	border-left-color: #FFFF00;
 }
 
