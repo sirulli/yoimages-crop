@@ -19,6 +19,8 @@ if (is_admin ()) {
 	define ( 'YOIMG_EDIT_IMAGE_ACTION', 'yoimg-edit-thumbnails' );
 	
 	if (YOIMG_CROP_ENABLED) {
+		define ( 'YOIMG_DEFAULT_CROP_RETINA_ENABLED', FALSE );
+		define ( 'YOIMG_CROP_RETINA_ENABLED', $yoimg_crop_settings && isset ( $yoimg_crop_settings ['retina_cropping_is_active'] ) ? $yoimg_crop_settings ['retina_cropping_is_active'] : YOIMG_DEFAULT_CROP_RETINA_ENABLED );
 		define ( 'YOIMG_CROP_URL', plugins_url ( plugin_basename ( YOIMG_CROP_PATH ) ) );
 		require_once (YOIMG_CROP_PATH . '/utils.php');
 		require_once (YOIMG_CROP_PATH . '/image-editor.php');

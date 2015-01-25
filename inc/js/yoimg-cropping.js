@@ -51,7 +51,7 @@ function yoimgExtendMediaLightboxTemplate(anchor1, anchor2, anchor3, anchor4) {
 function yoimgInitCropImage(doImmediateCrop) {
 	if (typeof yoimg_cropper_aspect_ratio !== 'undefined') {
 		function adaptCropPreviewWidth() {
-			var width = Math.min(jQuery('#yoimg-cropper-preview-title').width(), yoimg_cropper_min_width);
+			var width = Math.min(jQuery('#yoimg-cropper-preview-title').width(), yoimg_retina_crop_enabled ? (yoimg_cropper_min_width / 2) : yoimg_cropper_min_width);
 			jQuery('#yoimg-cropper-preview').css({
 				'height' : (width / yoimg_cropper_aspect_ratio) + 'px',
 				'width' : width + 'px'
@@ -172,6 +172,11 @@ function yoimgCropImage() {
 			jQuery('.message.yoimg-crop-smaller').show();
 		} else {
 			jQuery('.message.yoimg-crop-smaller').hide();
+		}
+		if (response.retina_smaller) {
+			jQuery('.message.yoimg-crop-retina-smaller').show();
+		} else {
+			jQuery('.message.yoimg-crop-retina-smaller').hide();
 		}
 		jQuery('#yoimg-cropper-wrapper .spinner').css('display', 'none');
 		jQuery(window).resize();
