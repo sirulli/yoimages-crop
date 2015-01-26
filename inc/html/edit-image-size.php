@@ -101,7 +101,7 @@ if ( $has_replacement ) {
 									echo $size_key;
 									if ( $yoimg_retina_crop_enabled_for_size ) {
 									?>
-										<span title="<?php echo _e( 'LOREM IPSUM Retina cropping enabled', YOIMG_DOMAIN ); ?>">[@2x]</span>
+										<span title="<?php echo _e( 'Retina cropping enabled', YOIMG_DOMAIN ); ?>">[@2x]</span>
 									<?php
 									}
 									?>
@@ -168,7 +168,7 @@ if ( $has_replacement ) {
 								</div>
 								
 								<div class="message error yoimg-crop-retina-smaller" style="display:<?php echo $is_crop_retina_smaller ? 'block' : 'none'; ?>;">
-									<p><?php _e( 'LOREM IPSUM This crop doesn\'t fit retina version of the image, you may replace the original image for this crop format using the replace button here below and then cropping it', YOIMG_DOMAIN ); ?></p>
+									<p><?php _e( 'This crop is too small to create the retina version of the image, you may replace the original image for this crop format using the replace button on the left and then crop it again.', YOIMG_DOMAIN ); ?></p>
 								</div>
 								
 								<h3 id="yoimg-cropper-preview-title"><?php _e( 'Crop preview', YOIMG_DOMAIN ); ?></h3>
