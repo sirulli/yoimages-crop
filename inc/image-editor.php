@@ -16,7 +16,11 @@ function yoimg_crop_image() {
 		$yoimg_retina_crop_enabled = yoimg_is_retina_crop_enabled_for_size( $req_size );
 		$img_path = _load_image_to_edit_path( $req_post );
 		$attachment_metadata = wp_get_attachment_metadata( $req_post );
-		$replacement = $attachment_metadata['yoimg_attachment_metadata']['crop'][$req_size]['replacement'];
+		if ( isset( $attachment_metadata['yoimg_attachment_metadata']['crop'][$req_size]['replacement'] ) ) {
+			$replacement = $attachment_metadata['yoimg_attachment_metadata']['crop'][$req_size]['replacement'];
+		} else {
+			$replacement = null;
+		}
 		$has_replacement = ! empty ( $replacement ) && get_post( $replacement );
 		if ( $has_replacement ) {
 			$replacement_path = _load_image_to_edit_path( $replacement );

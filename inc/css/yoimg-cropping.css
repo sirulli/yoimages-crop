@@ -6,6 +6,10 @@
 	z-index: 17000001;
 }
 
+.yoimg-wp-pointer {
+	z-index: 17000002 !important;
+}
+
 #yoimg-cropper-wrapper .media-frame-content,#yoimg-cropper-wrapper .media-frame-router,#yoimg-cropper-wrapper .media-frame-title
 	{
 	left: 0;

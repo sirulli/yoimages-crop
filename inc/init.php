@@ -19,6 +19,8 @@ if (is_admin ()) {
 	define ( 'YOIMG_EDIT_IMAGE_ACTION', 'yoimg-edit-thumbnails' );
 	
 	if (YOIMG_CROP_ENABLED) {
+		define ( 'YOIMG_DEFAULT_CROP_RETINA_ENABLED', FALSE );
+		define ( 'YOIMG_CROP_RETINA_ENABLED', $yoimg_crop_settings && isset ( $yoimg_crop_settings ['retina_cropping_is_active'] ) ? $yoimg_crop_settings ['retina_cropping_is_active'] : YOIMG_DEFAULT_CROP_RETINA_ENABLED );
 		define ( 'YOIMG_CROP_URL', plugins_url ( plugin_basename ( YOIMG_CROP_PATH ) ) );
 		require_once (YOIMG_CROP_PATH . '/utils.php');
 		require_once (YOIMG_CROP_PATH . '/image-editor.php');
@@ -50,8 +52,10 @@ function yoimg_crop_load_styles_and_scripts($hook) {
 		} else {
 			wp_enqueue_style ( 'media-views' );
 		}
+		wp_enqueue_style( 'wp-pointer' );
 		wp_enqueue_style ( 'yoimg-cropping-css', YOIMG_CROP_URL . '/css/yoimg-cropping.css' );
 		wp_enqueue_style ( 'yoimg-cropper-css', YOIMG_CROP_URL . '/js/cropper/cropper.min.css' );
+		wp_enqueue_script( 'wp-pointer' );
 		wp_enqueue_script ( 'yoimg-cropper-js', YOIMG_CROP_URL . '/js/cropper/cropper.min.js', array (
 				'jquery' 
 		), false, true );

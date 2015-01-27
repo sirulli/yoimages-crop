@@ -6,7 +6,7 @@ if ( ! defined ( 'ABSPATH' ) ) {
 
 function yoimg_is_retina_crop_enabled_for_size( $size ) {
 	// TODO
-	return true;
+	return YOIMG_CROP_RETINA_ENABLED;
 } 
 
 function yoimg_get_cropped_image_filename( $filename, $width, $height, $extension ) {
