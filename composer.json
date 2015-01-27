@@ -7,6 +7,6 @@
         }
     ],
     "require" : {
-        "sirulli/yoimages-commons" : "dev-retina_cropping"
+        "sirulli/yoimages-commons" : "master-dev"
     }
 }
