@@ -95,13 +95,14 @@ if ( $has_replacement ) {
 								$anchor_class = $is_current_size ? 'active' : '';
 								$anchor_href = yoimg_get_edit_image_url( $yoimg_image_id, $size_key ) . '&partial=1';
 								$yoimg_retina_crop_enabled_for_size = yoimg_is_retina_crop_enabled_for_size( $size_key );
-						?>
+								?>
 								<a href="<?php echo $anchor_href; ?>" class="media-menu-item yoimg-thickbox yoimg-thickbox-partial <?php echo $anchor_class; ?>">
 									<?php
 									echo $size_key;
 									if ( $yoimg_retina_crop_enabled_for_size ) {
+										$retina_help = $is_current_size ? '<span class="dashicons dashicons-editor-help yoimg-retina-crop-help" data-code="f223"></span><span id="yoimg-retina-crop-help-title" style="display:none">' . __( 'Retina friendly', YOIMG_DOMAIN ) . '</span><span id="yoimg-retina-crop-help-paragraph" style="display:none">' . __( 'Retina cropping enabled', YOIMG_DOMAIN ) . '</span>' : '';
 									?>
-										<span title="<?php echo _e( 'Retina cropping enabled', YOIMG_DOMAIN ); ?>">[@2x]</span>
+										<span title="<?php echo _e( 'Retina cropping enabled', YOIMG_DOMAIN ); ?>">(@2x<?php echo $retina_help; ?>)</span>
 									<?php
 									}
 									?>

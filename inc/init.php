@@ -52,8 +52,10 @@ function yoimg_crop_load_styles_and_scripts($hook) {
 		} else {
 			wp_enqueue_style ( 'media-views' );
 		}
+		wp_enqueue_style( 'wp-pointer' );
 		wp_enqueue_style ( 'yoimg-cropping-css', YOIMG_CROP_URL . '/css/yoimg-cropping.css' );
 		wp_enqueue_style ( 'yoimg-cropper-css', YOIMG_CROP_URL . '/js/cropper/cropper.min.css' );
+		wp_enqueue_script( 'wp-pointer' );
 		wp_enqueue_script ( 'yoimg-cropper-js', YOIMG_CROP_URL . '/js/cropper/cropper.min.js', array (
 				'jquery' 
 		), false, true );
