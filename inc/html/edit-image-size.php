@@ -154,7 +154,7 @@ if ( $has_replacement ) {
 								
 								<div class="message error yoimg-crop-smaller" style="display:<?php echo $is_crop_smaller ? 'block' : 'none'; ?>;">
 									<?php //TODO ?>
-									<p><?php _e( 'This crop is smaller (%1$sx%2$s) than expected (%3$sx%4$s), you may replace the original image for this crop format using the replace button here below and then cropping it', YOIMG_DOMAIN ); ?></p>
+									<p><?php _e( 'This crop is smaller than expected, you may replace the original image for this crop format using the replace button on the left and then cropping it', YOIMG_DOMAIN ); ?></p>
 								</div>
 								
 								<div class="message error yoimg-crop-retina-smaller" style="display:<?php echo $is_crop_retina_smaller ? 'block' : 'none'; ?>;">
