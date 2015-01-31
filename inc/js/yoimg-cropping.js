@@ -7,19 +7,6 @@ function yoimgLoadCropThickbox(href, partial) {
 		} else {
 			jQuery('body').append(data);
 		}
-		jQuery('.yoimg-retina-crop-help').pointer({
-			pointerClass: 'wp-pointer yoimg-wp-pointer',
-			content : '<h3>' + jQuery('#yoimg-retina-crop-help-title').text() + '</h3> <p>' + jQuery('#yoimg-retina-crop-help-paragraph').text() + '</p>',
-			position : {
-				edge : 'left',
-				align : 'center'
-			}
-		});
-		jQuery('.yoimg-retina-crop-help').click(function(e) {
-			e.preventDefault();
-			jQuery(this).pointer('open');
-			return false;
-		});
 	});
 }
 
