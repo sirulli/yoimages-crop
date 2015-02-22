@@ -65,14 +65,16 @@ foreach ( $sizes as $size_key => $size_value ) {
 <script>
 jQuery(document).ready(function(){
 	jQuery('.yoimg-hard-crop-help').pointer({
-		content: '<h3><?php _e( 'Hard cropped image', YOIMG_DOMAIN ); ?></h3> <p><?php _e( 'this image format contains only a part of the original image, it has fixed width and height so that the image ratio is fixed too, e.g. thumbnail in listings are cropped', YOIMG_DOMAIN ); ?></p>',
+		<?php $contentStr = '<h3>' . __( 'Hard cropped image', YOIMG_DOMAIN ) .'</h3> <p>' . __( 'this image format contains only a part of the original image, it has fixed width and height so that the image ratio is fixed too, e.g. thumbnail in listings are cropped', YOIMG_DOMAIN ) . '</p>'; ?>
+		content: <?php echo json_encode( $contentStr ); ?>,
 		position: {
 			edge: 'left',
 			align: 'center'
 		}
 	});
 	jQuery('.yoimg-resize-help').pointer({
-		content: '<h3><?php _e( 'Resized image', YOIMG_DOMAIN ); ?></h3> <p><?php _e( 'this image format is not cropped but instead it is resized to fit the maximum available space, either in width or height, therefore this image ratio is not fixed', YOIMG_DOMAIN ); ?></p>',
+		<?php $contentStr = '<h3>' . __( 'Resized image', YOIMG_DOMAIN ) . '</h3> <p>' . __( 'this image format is not cropped but instead it is resized to fit the maximum available space, either in width or height, therefore this image ratio is not fixed', YOIMG_DOMAIN ) . '</p>'; ?>
+		content: <?php echo json_encode( $contentStr ); ?>,
 		position: {
 			edge: 'left',
 			align: 'center'
