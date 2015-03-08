@@ -136,7 +136,7 @@ if ( $has_replacement ) {
 									<img src="<?php echo $image_attributes[0] . '?' . mt_rand( 1000, 9999 ); ?>" style="max-width: 100%;" />
 									<?php
 									$is_crop_smaller = $full_image_attributes[1] < $curr_size_width || $full_image_attributes[2] < $curr_size_height;
-									$is_crop_retina_smaller = $full_image_attributes[1] < ( $curr_size_width * 2 ) || $full_image_attributes[2] < ( $curr_size_height * 2 );
+									$is_crop_retina_smaller = $yoimg_retina_crop_enabled && ( $full_image_attributes[1] < ( $curr_size_width * 2 ) || $full_image_attributes[2] < ( $curr_size_height * 2 ) );
 								} else {
 									$img_url_parts = parse_url( $image_attributes[0] );
 									$img_path_parts = pathinfo( $img_url_parts['path'] );
