@@ -95,7 +95,7 @@ if ( $has_replacement ) {
 								$anchor_class = $is_current_size ? 'active' : '';
 								$anchor_href = yoimg_get_edit_image_url( $yoimg_image_id, $size_key ) . '&partial=1';
 								?>
-								<a href="<?php echo $anchor_href; ?>" class="media-menu-item yoimg-thickbox yoimg-thickbox-partial <?php echo $anchor_class; ?>"><?php echo $size_key; ?></a>
+								<a href="<?php echo $anchor_href; ?>" class="media-menu-item yoimg-thickbox yoimg-thickbox-partial <?php echo $anchor_class; ?>"><?php _e(ucwords(str_replace('-', ' ', $size_key))); ?></a>
 						<?php
 							}
 						}
@@ -123,11 +123,11 @@ if ( $has_replacement ) {
 								$this_crop_exists = ! empty( $attachment_metadata['sizes'][$yoimg_image_size]['file'] );
 								if ( $this_crop_exists ) {
 								?>
-									<h3><?php _e( 'Current', YOIMG_DOMAIN ); ?> <?php echo $yoimg_image_size; ?> (<?php echo $attachment_metadata['sizes'][$yoimg_image_size]['width']; ?>x<?php echo $attachment_metadata['sizes'][$yoimg_image_size]['height']; ?>)</h3>
+									<h3><?php _e( 'Current', YOIMG_DOMAIN ); ?> <?php _e(ucwords(str_replace('-', ' ', $yoimg_image_size))); ?> (<?php echo $attachment_metadata['sizes'][$yoimg_image_size]['width']; ?>x<?php echo $attachment_metadata['sizes'][$yoimg_image_size]['height']; ?>)</h3>
 								<?php
 								} else {
 								?>
-									<h3><?php _e( 'Current', YOIMG_DOMAIN ); ?> <?php echo $yoimg_image_size; ?> (<?php echo $curr_size_width; ?>x<?php echo $curr_size_height; ?>)</h3>
+									<h3><?php _e( 'Current', YOIMG_DOMAIN ); ?> <?php _e(ucwords(str_replace('-', ' ', $yoimg_image_size))); ?> (<?php echo $curr_size_width; ?>x<?php echo $curr_size_height; ?>)</h3>
 								<?php	
 								}
 								$image_attributes = wp_get_attachment_image_src( $yoimg_image_id, $yoimg_image_size );
@@ -181,7 +181,7 @@ if ( $has_replacement ) {
 								<div class="yoimg-crop-now-wrapper">
 									<a href="javascript:yoimgCropImage();"
 											class="button media-button button-primary button-large media-button-select">
-										<?php _e( 'Crop', YOIMG_DOMAIN ); ?> <?php echo $yoimg_image_size; ?>
+										<?php _e( 'Crop', YOIMG_DOMAIN ); ?> <?php _e(ucwords(str_replace('-', ' ', $yoimg_image_size))); ?>
 									</a>
 									<span class="spinner"></span>
 								</div>
