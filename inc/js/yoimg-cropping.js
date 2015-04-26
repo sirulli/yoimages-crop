@@ -152,7 +152,7 @@ function yoimgCancelCropImage() {
 }
 
 function yoimgCropImage() {
-	jQuery('#yoimg-cropper-wrapper .spinner').css('display', 'inline-block');
+	jQuery('#yoimg-cropper-wrapper .spinner').addClass('is-active');
 	var data = jQuery('#yoimg-cropper').cropper('getData');
 	data['action'] = 'yoimg_crop_image';
 	data['post'] = yoimg_image_id;
@@ -178,7 +178,7 @@ function yoimgCropImage() {
 		} else {
 			jQuery('.message.yoimg-crop-retina-smaller').hide();
 		}
-		jQuery('#yoimg-cropper-wrapper .spinner').css('display', 'none');
+		jQuery('#yoimg-cropper-wrapper .spinner').removeClass('is-active');
 		jQuery(window).resize();
 	});
 }
