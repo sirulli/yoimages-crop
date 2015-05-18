@@ -3,7 +3,7 @@ if (! defined ( 'ABSPATH' )) {
 	die ( 'No script kiddies please!' );
 }
 
-if (is_admin ()) {
+if (is_admin () || php_sapi_name () == 'cli') {
 	
 	define ( 'YOIMG_CROP_PATH', dirname ( __FILE__ ) );
 	
