@@ -4,8 +4,7 @@ if (! defined ( 'ABSPATH' )) {
 }
 
 if (is_admin () || php_sapi_name () == 'cli') {
-	
-if (is_admin () || php_sapi_name() == 'cli' ) {
+
 	define ( 'YOIMG_CROP_PATH', dirname ( __FILE__ ) );
 	
 	define ( 'YOIMG_DEFAULT_CROP_ENABLED', TRUE );
