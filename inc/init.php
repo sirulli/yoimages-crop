@@ -3,8 +3,8 @@ if (! defined ( 'ABSPATH' )) {
 	die ( 'No script kiddies please!' );
 }
 
-if (is_admin ()) {
-	
+if (is_admin () || php_sapi_name () == 'cli') {
+
 	define ( 'YOIMG_CROP_PATH', dirname ( __FILE__ ) );
 	
 	define ( 'YOIMG_DEFAULT_CROP_ENABLED', TRUE );
@@ -28,6 +28,7 @@ if (is_admin ()) {
 		require_once (YOIMG_CROP_PATH . '/extend-admin-media-lightbox.php');
 		require_once (YOIMG_CROP_PATH . '/extend-admin-post.php');
 		require_once (YOIMG_CROP_PATH . '/extend-admin-options-media.php');
+		require_once (YOIMG_CROP_PATH . '/extend-attachment-update.php');
 	}
 }
 function yoimg_crop_load_styles_and_scripts($hook) {
