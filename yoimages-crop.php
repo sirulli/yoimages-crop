@@ -4,7 +4,7 @@
  * Plugin Name: YoImages Crop
  * Plugin URI: http://sirulli.org/yoimages/
  * Description: Better image handling capabilities for Wordpress: image cropping tools
- * Version: 0.0.7
+ * Version: 0.1.0
  * Author: Sirulli
  * Author URI: http://sirulli.org/
  * License: GPL2

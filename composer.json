@@ -7,6 +7,6 @@
         }
     ],
     "require" : {
-        "sirulli/yoimages-commons" : "dev-search"
+        "sirulli/yoimages-commons" : "master-dev"
     }
 }
