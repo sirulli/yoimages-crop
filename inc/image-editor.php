@@ -96,6 +96,8 @@ function yoimg_crop_image() {
 					'smaller' => $is_crop_smaller )
 			);
 		}
+
+		do_action('yoimg_post_crop_image');
 	}
 	die();
 }
