@@ -74,14 +74,19 @@ if ( $has_replacement ) {
 <?php if ( ! $is_partial_rendering ) { ?>
 <div id="yoimg-cropper-wrapper">
 	<div class="media-modal wp-core-ui">
-		<a title="<?php _e( 'Close', YOIMG_DOMAIN ); ?>" href="javascript:yoimgCancelCropImage();" class="media-modal-close">
-			<span class="media-modal-icon"></span>
-		</a>
+		<button type="button" class="button-link media-modal-close" onclick="javascript:yoimgCancelCropImage();">
+			<span class="media-modal-icon">
+				<span class="screen-reader-text"><?php _e( 'Close crop panel', YOIMG_DOMAIN ); ?></span>
+			</span>
+		</button>
 		<div class="media-modal-content">
 <?php } ?>
 	    	<div class="media-frame wp-core-ui">	
 				<div class="media-frame-title"><h1><?php _e( 'Edit crop formats from full image', YOIMG_DOMAIN ); ?> (<?php echo $full_image_attributes[1]; ?>x<?php echo $full_image_attributes[2]; ?>)</h1></div>
 				<div class="media-frame-router">
+					<button type="button" class="button-link arrows arrow-l">
+						<span class="dashicons dashicons-arrow-left-alt2"></span>
+					</button>
 					<div class="media-router">
 						<?php
 						$sizes = yoimg_get_image_sizes ();
@@ -99,8 +104,21 @@ if ( $has_replacement ) {
 						<?php
 							}
 						}
+						if (YOIMG_TEST_SLIDING_TAB > 0) {
+							$rands = array(" Neo ", " Morpheus ", " Trinity ", " and ", " a ", "", " Sirulli ");
+							$test_index = 0;
+							while ($test_index < YOIMG_TEST_SLIDING_TAB) {
+								$test_index++;
+								?>
+								<a href="javascript:;" class="media-menu-item yoimg-thickbox yoimg-thickbox-partial">Wheee <?php echo $rands[array_rand($rands)] . $test_index; ?></a>
+								<?php
+							}
+						}
 						?>
 					</div>
+					<button type="button" class="button-link arrows arrow-r">
+						<span class="dashicons dashicons-arrow-right-alt2"></span>
+					</button>
 				</div>
 				<div class="media-frame-content">
 					<div class="attachments-browser">

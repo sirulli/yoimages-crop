@@ -10,9 +10,55 @@
 	z-index: 17000002 !important;
 }
 
-#yoimg-cropper-wrapper .media-frame-content,#yoimg-cropper-wrapper .media-frame-router,#yoimg-cropper-wrapper .media-frame-title
+#yoimg-cropper-wrapper .media-frame-content, #yoimg-cropper-wrapper .media-frame-router, #yoimg-cropper-wrapper .media-frame-title
 	{
 	left: 0;
+}
+
+#yoimg-cropper-wrapper .media-frame-router {
+	overflow: hidden;
+	padding-top: 1px;
+	position: relative;
+}
+
+#yoimg-cropper-wrapper .media-frame-router .arrows {
+	border: 0;
+    background: none;
+    cursor: default;
+	display: none;
+	margin: 0;
+	outline: none;
+	padding: 0;
+	position: absolute;
+	top: 0;
+	z-index: 3;
+}
+
+#yoimg-cropper-wrapper .media-frame-router .arrows .dashicons {
+	padding: 7px;
+	opacity: .4;
+}
+
+#yoimg-cropper-wrapper .media-frame-router .arrows.active .dashicons {
+	cursor: pointer;
+	opacity: 1;
+}
+
+#yoimg-cropper-wrapper .media-frame-router .arrow-l {
+	left: 0;	
+}
+
+#yoimg-cropper-wrapper .media-frame-router .arrow-r {
+	right: 0;	
+}
+
+#yoimg-cropper-wrapper .media-frame-router .media-router {
+	left: 0;
+	position: absolute;
+}
+
+#yoimg-cropper-wrapper .media-frame-router .media-router a {
+	float: left;
 }
 
 #yoimg-cropper-wrapper .media-frame-content {
@@ -74,7 +120,7 @@
 
 .yoimg-crop-now-wrapper {
 	margin-top: 12px;
-} 
+}
 
 #yoimg-cropper-wrapper .yoimg-crop-now-wrapper a {
 	float: left;
@@ -85,11 +131,11 @@
 	float: left;
 }
 
-.yoimg-size-row td,.yoimg-size-row th {
+.yoimg-size-row td, .yoimg-size-row th {
 	padding-bottom: 6px;
 }
 
-.yoimg-size-type-row td,.yoimg-size-type-row th {
+.yoimg-size-type-row td, .yoimg-size-type-row th {
 	padding-top: 6px;
 }
 
@@ -102,8 +148,7 @@
 	display: none;
 }
 
-#yoimg-replace-media-uploader .attachments-browser .attachments,#yoimg-replace-media-uploader .attachments-browser .uploader-inline,#yoimg-replace-media-uploader .attachments-browser .media-toolbar
-	{
+#yoimg-replace-media-uploader .attachments-browser .attachments, #yoimg-replace-media-uploader .attachments-browser .uploader-inline, #yoimg-replace-media-uploader .attachments-browser .media-toolbar {
 	right: 0;
 }
 

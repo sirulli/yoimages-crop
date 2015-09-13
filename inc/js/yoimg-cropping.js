@@ -144,6 +144,84 @@ function yoimgInitCropImage(doImmediateCrop) {
 				yoimgLoadCropThickbox(currEl.attr('href') + '&immediatecrop=1', true);
 			});
 		});
+		function initScrollingMediaFrameRouter() {
+			var arrows, arrowL, arrowR, arrowWidth;
+			var mediaFrameRouter = jQuery('#yoimg-cropper-wrapper .media-frame-router');
+			var mediaRouter = mediaFrameRouter.find('.media-router');
+			var mediaFrameRouterWidth = mediaFrameRouter.width();
+			var mediaRouterWidth = 3;
+			var currIndex = 0;
+			var activeIndex = 0;
+			var scrollLeft = 0;
+			var mediaRouterAnchors = mediaRouter.find('a'); 
+			mediaRouterAnchors.each(function(index) {
+				var currEl = jQuery(this);
+				mediaRouterWidth += parseInt(currEl.outerWidth(true), 10);
+				if (currEl.hasClass('active')) {
+					activeIndex = index;
+				}
+			});
+			mediaRouter.css('width', mediaRouterWidth + 'px');
+			var hiddenWidth = mediaRouterWidth - mediaFrameRouterWidth;
+			if (hiddenWidth > 0) {
+				function _mediaFrameVisible(index) {
+					var minScrollLeft = arrowWidth + mediaFrameRouterWidth;
+					for (var i = 0; i <= index; i++) {
+						minScrollLeft -= parseInt(jQuery(mediaRouterAnchors[i]).outerWidth(true), 10); 
+					}
+					return scrollLeft < minScrollLeft;
+				}
+				function _scrollMediaFrameTo(index, forced) {
+					if ((index != currIndex || forced === true) && index > -1 && index < mediaRouterAnchors.length) {
+						scrollLeft = arrowWidth;
+						for (var i = 0; i < index; i++) {
+							scrollLeft -= parseInt(jQuery(mediaRouterAnchors[i]).outerWidth(true), 10); 
+						}
+						var doScroll = (scrollLeft * -1) - parseInt(jQuery(mediaRouterAnchors[index]).outerWidth(true), 10) - arrowWidth < hiddenWidth;
+						if (doScroll) {
+							if (forced === true) {
+								mediaRouter.css('left', scrollLeft + 'px');
+							} else {
+								mediaRouter.animate({
+									left : scrollLeft + 'px'
+								}, 300);	
+							}
+							currIndex = index;
+						}
+						if (currIndex > 0) {
+							arrowL.addClass('active');
+						} else {
+							arrowL.removeClass('active');
+						}
+						if (currIndex < mediaRouterAnchors.length - 1 && !_mediaFrameVisible(mediaRouterAnchors.length - 1)) {
+							arrowR.addClass('active');
+						} else {
+							arrowR.removeClass('active');
+						}
+					}
+				}
+				function _scrollMediaFrame(right, forced) {
+					_scrollMediaFrameTo(currIndex + (right ? 1 : -1), forced);
+				}
+				function scrollMediaFrameRight(forced) {
+					_scrollMediaFrame(true, forced);
+				}
+				function scrollMediaFrameLeft(forced) {
+					_scrollMediaFrame(false, forced);
+				}
+				arrows = mediaFrameRouter.find('.arrows');
+				arrowR = arrows.filter('.arrow-r').unbind().click(scrollMediaFrameRight);
+				arrowL = arrows.filter('.arrow-l').unbind().click(scrollMediaFrameLeft);
+				arrowWidth = parseInt(arrowL.outerWidth(true), 10);
+				arrows.css('background-color', jQuery('.media-modal-content').css('background-color')).show();
+				_scrollMediaFrameTo(currIndex, true);
+				while (!_mediaFrameVisible(activeIndex)) {
+					scrollMediaFrameRight(true);
+				}
+			}
+		}
+		initScrollingMediaFrameRouter();
+		jQuery(window).resize(initScrollingMediaFrameRouter);
 	}
 }
 
