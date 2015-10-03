@@ -104,16 +104,6 @@ if ( $has_replacement ) {
 						<?php
 							}
 						}
-						if (YOIMG_TEST_SLIDING_TAB > 0) {
-							$rands = array(" Neo ", " Morpheus ", " Trinity ", " and ", " a ", "", " Sirulli ");
-							$test_index = 0;
-							while ($test_index < YOIMG_TEST_SLIDING_TAB) {
-								$test_index++;
-								?>
-								<a href="javascript:;" class="media-menu-item yoimg-thickbox yoimg-thickbox-partial">Wheee <?php echo $rands[array_rand($rands)] . $test_index; ?></a>
-								<?php
-							}
-						}
 						?>
 					</div>
 					<button type="button" class="button-link arrows arrow-r">
