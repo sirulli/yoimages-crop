@@ -15,12 +15,6 @@
 	left: 0;
 }
 
-#yoimg-cropper-wrapper .media-frame-router {
-	overflow: hidden;
-	padding-top: 1px;
-	position: relative;
-}
-
 #yoimg-cropper-wrapper .media-frame-router .arrows {
 	border: 0;
     background: none;
