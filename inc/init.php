@@ -15,13 +15,11 @@ if (is_admin () || php_sapi_name () == 'cli') {
 	) ) );
 	$yoimg_crop_settings = get_option ( 'yoimg_crop_settings' );
 	define ( 'YOIMG_CROP_ENABLED', $yoimg_crop_settings && isset ( $yoimg_crop_settings ['cropping_is_active'] ) ? $yoimg_crop_settings ['cropping_is_active'] : YOIMG_DEFAULT_CROP_ENABLED );
-
 	define ( 'YOIMG_EDIT_IMAGE_ACTION', 'yoimg-edit-thumbnails' );
-	
+	define ( 'YOIMG_DEFAULT_CROP_RETINA_ENABLED', FALSE );
+	define ( 'YOIMG_CROP_RETINA_ENABLED', $yoimg_crop_settings && isset ( $yoimg_crop_settings ['retina_cropping_is_active'] ) ? $yoimg_crop_settings ['retina_cropping_is_active'] : YOIMG_DEFAULT_CROP_RETINA_ENABLED );
+	define ( 'YOIMG_CROP_URL', plugins_url ( plugin_basename ( YOIMG_CROP_PATH ) ) );
 	if (YOIMG_CROP_ENABLED) {
-		define ( 'YOIMG_DEFAULT_CROP_RETINA_ENABLED', FALSE );
-		define ( 'YOIMG_CROP_RETINA_ENABLED', $yoimg_crop_settings && isset ( $yoimg_crop_settings ['retina_cropping_is_active'] ) ? $yoimg_crop_settings ['retina_cropping_is_active'] : YOIMG_DEFAULT_CROP_RETINA_ENABLED );
-		define ( 'YOIMG_CROP_URL', plugins_url ( plugin_basename ( YOIMG_CROP_PATH ) ) );
 		require_once (YOIMG_CROP_PATH . '/utils.php');
 		require_once (YOIMG_CROP_PATH . '/image-editor.php');
 		require_once (YOIMG_CROP_PATH . '/extend-admin-media.php');
@@ -30,6 +28,7 @@ if (is_admin () || php_sapi_name () == 'cli') {
 		require_once (YOIMG_CROP_PATH . '/extend-admin-options-media.php');
 		require_once (YOIMG_CROP_PATH . '/extend-attachment-update.php');
 	}
+	require_once (YOIMG_CROP_PATH . '/extend-yoimg-settings.php');
 }
 function yoimg_crop_load_styles_and_scripts($hook) {
 	if (YOIMG_CROP_ENABLED) {

@@ -7,6 +7,6 @@
         }
     ],
     "require" : {
-        "sirulli/yoimages-commons" : "master-dev"
+        "sirulli/yoimages-commons" : "dev-splitting_settings_code_into_modules"
     }
 }
