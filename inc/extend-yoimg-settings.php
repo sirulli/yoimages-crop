@@ -65,15 +65,19 @@ function yoimg_crop_settings_cropping_sizes_callback() {
 	print ( '<table class="wp-list-table widefat fixed striped">
 				<thead>
 					<tr>
-						<td><span>' . __ ( 'Size id', YOIMG_DOMAIN ) . '</span></td>
-						<td><span>' . __ ( 'User friendly name', YOIMG_DOMAIN ) . '</span></td> 
-						<td><span>' . __ ( 'Manual crop active', YOIMG_DOMAIN ) . '</span></td>
+						<td style="width:30%;"><span>' . __ ( 'Size id', YOIMG_DOMAIN ) . '</span></td>
+						<td style="width:10%;"><span>' . __ ( 'Width', YOIMG_DOMAIN ) . '</span></td>
+						<td style="width:10%;"><span>' . __ ( 'Height', YOIMG_DOMAIN ) . '</span></td>
+						<td style="width:40%;"><span>' . __ ( 'User friendly name', YOIMG_DOMAIN ) . '</span></td> 
+						<td style="width:10%;"><span>' . __ ( 'Active', YOIMG_DOMAIN ) . '</span></td>
 					</tr>
 				</thead>' );
 	foreach ( $crop_sizes_options as $crop_size_id => $crop_size_option ) {
 		if ( isset( $crop_size_option['active'] ) && $crop_size_option['crop'] == 1 ) {
 			printf ( '<tr><td>%s</td>', $crop_size_id );
-			printf ( '<td><input class="cropping_is_active-dep" type="text" name="yoimg_crop_settings[crop_sizes][%s][name]" value="%s" /></td>', $crop_size_id, $crop_size_option['name'] );
+			printf ( '<td>%s</td>', $crop_size_option['width'] );
+			printf ( '<td>%s</td>', $crop_size_option['height'] );
+			printf ( '<td><input class="cropping_is_active-dep" type="text" name="yoimg_crop_settings[crop_sizes][%s][name]" value="%s" style="width: 100%%;" /></td>', $crop_size_id, $crop_size_option['name'] );
 			printf ( '<td><input class="cropping_is_active-dep" type="checkbox" name="yoimg_crop_settings[crop_sizes][%s][active]" value="TRUE" %s /></td></tr>', $crop_size_id, isset( $crop_size_option['active'] ) && $crop_size_option['active'] ? 'checked="checked"' : '' );
 		}
 	}
