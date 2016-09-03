@@ -28,7 +28,7 @@ foreach ( $sizes as $size_key => $size_value ) {
 ?>
 
 <tr class="yoimg-size-row">
-	<th scope="row"><?php echo $size_key; ?></th>
+	<th scope="row"><?php echo $size_value['name']; ?></th>
 	<td>
 		<?php if ( $size_value['crop'] == 1 ) { ?>
 			<label class="yoimg-first"><?php _e( 'Width', YOIMG_DOMAIN ); ?>: <?php echo $size_value['width']; ?></label>

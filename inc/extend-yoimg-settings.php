@@ -9,7 +9,7 @@ function yoimg_crop_extend_settings($settings) {
 					'title' => __ ( 'Crop settings', YOIMG_DOMAIN ),
 					'option_group' => 'yoimages-crop-group',
 					'option_name' => 'yoimg_crop_settings',
-					'sanitize_callback' => 'yoimg_crop_settings_sanitize_crop',
+					'sanitize_callback' => 'yoimg_crop_settings_sanitize',
 					'sections' => array (
 							array (
 									'id' => 'yoimg_crop_options_section',
@@ -30,7 +30,12 @@ function yoimg_crop_extend_settings($settings) {
 													'id' => 'retina_cropping_is_active',
 													'title' => __ ( 'Retina friendly', YOIMG_DOMAIN ),
 													'callback' => 'yoimg_crop_settings_retina_cropping_is_active_callback' 
-											) 
+											),
+											array (
+													'id' => 'cropping_sizes',
+													'title' => __ ( 'Cropping sizes', YOIMG_DOMAIN ),
+													'callback' => 'yoimg_crop_settings_cropping_sizes_callback' 
+											)  
 									) 
 							) 
 					) 
@@ -55,10 +60,37 @@ function yoimg_crop_settings_retina_cropping_is_active_callback() {
 	printf ( '<input type="checkbox" id="retina_cropping_is_active" class="cropping_is_active-dep" name="yoimg_crop_settings[retina_cropping_is_active]" value="TRUE" %s />
 				<p class="description">' . __ ( 'Flag to enable (enable this option if you are using a retina plugin that uses @2x as file naming convention when creating retina images from source - e.g. <a href="https://wordpress.org/plugins/wp-retina-2x/" target="_blank">WP Retina 2x</a>)', YOIMG_DOMAIN ) . '</p>', $crop_options ['retina_cropping_is_active'] ? 'checked="checked"' : (YOIMG_DEFAULT_CROP_RETINA_ENABLED && ! isset ( $crop_options ['retina_cropping_is_active'] ) ? 'checked="checked"' : '') );
 }
+function yoimg_crop_settings_cropping_sizes_callback() {
+	$crop_sizes_options = yoimg_get_image_sizes ();
+	print ( '<table class="wp-list-table widefat fixed striped">
+				<thead>
+					<tr>
+						<td><span>' . __ ( 'Size id', YOIMG_DOMAIN ) . '</span></td>
+						<td><span>' . __ ( 'User friendly name', YOIMG_DOMAIN ) . '</span></td> 
+						<td><span>' . __ ( 'Manual crop active', YOIMG_DOMAIN ) . '</span></td>
+					</tr>
+				</thead>' );
+	foreach ( $crop_sizes_options as $crop_size_id => $crop_size_option ) {
+		if ( isset( $crop_size_option['active'] ) && $crop_size_option['crop'] == 1 ) {
+			printf ( '<tr><td>%s</td>', $crop_size_id );
+			printf ( '<td><input class="cropping_is_active-dep" type="text" name="yoimg_crop_settings[crop_sizes][%s][name]" value="%s" /></td>', $crop_size_id, $crop_size_option['name'] );
+			printf ( '<td><input class="cropping_is_active-dep" type="checkbox" name="yoimg_crop_settings[crop_sizes][%s][active]" value="TRUE" %s /></td></tr>', $crop_size_id, isset( $crop_size_option['active'] ) && $crop_size_option['active'] ? 'checked="checked"' : '' );
+		}
+	}
+	print ( '</table>' );
+}
 function yoimg_crop_settings_section_info() {
 	print __ ( 'Enter your cropping settings here below', YOIMG_DOMAIN );
 }
-function yoimg_crop_settings_sanitize_crop($input) {
+
+function yoimg_crop_settings_sanitize($input) {
+
+
+	////////////////////// TODO SANITIZE TOTALE GLOBBALEEEEEEE!!!!!!!!!!
+	//// $ar =array_map_r('strip_tags', $a);
+	///// https://codex.wordpress.org/Validating_Sanitizing_and_Escaping_User_Data
+
+
 	$new_input = array ();
 	if (isset ( $input ['cropping_is_active'] ) && ($input ['cropping_is_active'] === 'TRUE' || $input ['cropping_is_active'] === TRUE)) {
 		$new_input ['cropping_is_active'] = TRUE;
@@ -94,6 +126,28 @@ function yoimg_crop_settings_sanitize_crop($input) {
 		$new_input ['retina_cropping_is_active'] = TRUE;
 	} else {
 		$new_input ['retina_cropping_is_active'] = FALSE;
+	}
+	if (isset ( $input ['crop_sizes'] )) {
+		$there_is_one_manual_crop_active = FALSE;
+		foreach ( $input['crop_sizes'] as $crop_size_id => $crop_size_option ) {
+			if (isset ( $crop_size_option ['active'] ) && ($crop_size_option ['active'] === 'TRUE' || $crop_size_option ['active'] === TRUE)) {
+				$new_input ['crop_sizes'][$crop_size_id]['active'] = TRUE;
+				$there_is_one_manual_crop_active = TRUE;
+			} else {
+				$new_input ['crop_sizes'][$crop_size_id]['active'] = FALSE;
+			}
+			if ( isset( $crop_size_option ['name'] ) && ! empty( $crop_size_option ['name'] ) ) {
+				$new_input ['crop_sizes'][$crop_size_id]['name'] = $crop_size_option ['name'];
+			} else {
+				$new_input ['crop_sizes'][$crop_size_id]['name'] = $crop_size_id;
+			}
+		}
+		if ( ! $there_is_one_manual_crop_active ) {
+			add_settings_error ( 'yoimg_crop_options_group', 'crop_sizes', __ ( 'There should be at least one manual crop activated. If you don\'t want any manual crop to be active, please disable the whole cropping using the first checkbox here below.', YOIMG_DOMAIN ), 'error' );
+			foreach ( $input['crop_sizes'] as $crop_size_id => $crop_size_option ) {
+				$new_input ['crop_sizes'][$crop_size_id]['active'] = TRUE;
+			}
+		}
 	}
 	return $new_input;
 }
