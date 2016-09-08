@@ -88,13 +88,6 @@ function yoimg_crop_settings_section_info() {
 }
 
 function yoimg_crop_settings_sanitize($input) {
-
-
-	////////////////////// TODO SANITIZE TOTALE GLOBBALEEEEEEE!!!!!!!!!!
-	//// $ar =array_map_r('strip_tags', $a);
-	///// https://codex.wordpress.org/Validating_Sanitizing_and_Escaping_User_Data
-
-
 	$new_input = array ();
 	if (isset ( $input ['cropping_is_active'] ) && ($input ['cropping_is_active'] === 'TRUE' || $input ['cropping_is_active'] === TRUE)) {
 		$new_input ['cropping_is_active'] = TRUE;
