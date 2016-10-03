@@ -4,11 +4,21 @@ if ( ! defined ( 'ABSPATH' ) ) {
 	die ( 'No script kiddies please!' );
 }
 
-function yoimg_admin_post_thumbnail_html( $content, $id ) {
-	if ( ! has_post_thumbnail( $id ) ) {
-		return $content;
+function yoimg_admin_post_thumbnail_html( $content, $id, $thumb_id = null ) {
+	global $wp_version;
+	if ( version_compare( $wp_version, '4.6.0', '>=' ) ) {
+		if ( ! empty( $thumb_id ) ) {
+			$image_id = $thumb_id;
+		} else {
+			return $content;
+		}
+	} else {
+		if ( has_post_thumbnail( $id ) ) {
+			$image_id = get_post_thumbnail_id( $id );
+		} else {
+			return $content;
+		}
 	}
-	$image_id = get_post_thumbnail_id( $id );
 	if ( ! current_user_can( 'edit_post', $image_id ) ) {
 		return $content;
 	}
@@ -16,4 +26,4 @@ function yoimg_admin_post_thumbnail_html( $content, $id ) {
 	return $content . $edit_crops_content;
 }
 
-add_filter( 'admin_post_thumbnail_html', 'yoimg_admin_post_thumbnail_html', 10, 2 );
+add_filter( 'admin_post_thumbnail_html', 'yoimg_admin_post_thumbnail_html', 10, 3 );
