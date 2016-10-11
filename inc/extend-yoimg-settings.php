@@ -68,7 +68,7 @@ function yoimg_crop_settings_cropping_sizes_callback() {
 						<td style="width:30%;"><span>' . __ ( 'Size id', YOIMG_DOMAIN ) . '</span></td>
 						<td style="width:10%;"><span>' . __ ( 'Width', YOIMG_DOMAIN ) . '</span></td>
 						<td style="width:10%;"><span>' . __ ( 'Height', YOIMG_DOMAIN ) . '</span></td>
-						<td style="width:40%;"><span>' . __ ( 'User friendly name', YOIMG_DOMAIN ) . '</span></td> 
+						<td style="width:40%;"><span>' . __ ( 'User-friendly name', YOIMG_DOMAIN ) . '</span></td>
 						<td style="width:10%;"><span>' . __ ( 'Active', YOIMG_DOMAIN ) . '</span></td>
 					</tr>
 				</thead>' );
