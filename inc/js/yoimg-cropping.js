@@ -37,11 +37,11 @@ function yoimgAddEditImageAnchors() {
 
 function yoimgExtendMediaLightboxTemplate(anchor1, anchor2, anchor3, anchor4) {
 	var attachmentDetailsTmpl = jQuery('#tmpl-attachment-details').text();
-	attachmentDetailsTmpl = attachmentDetailsTmpl.replace(/(<a class="edit-attachment"[^>]+[^<]+<\/a>)/, '\n$1' + anchor1);
+	attachmentDetailsTmpl = attachmentDetailsTmpl.replace(/(<(a|button)[^>]+class="[^"]*edit-attachment[^"]*"[^>]*>[^<]*<\/(a|button)>)/, '\n$1' + anchor1);
 	jQuery('#tmpl-attachment-details').text(attachmentDetailsTmpl);
 	var attachmentDetailsTmplTwoColumn = jQuery('#tmpl-attachment-details-two-column').text();
-	attachmentDetailsTmplTwoColumn = attachmentDetailsTmplTwoColumn.replace(/(<a class="view-attachment"[^>]+[^<]+<\/a>[^<]+)<a/, '\n$1' + anchor2 + ' | <a');
-	attachmentDetailsTmplTwoColumn = attachmentDetailsTmplTwoColumn.replace(/(<a class="button edit-attachment"[^>]+[^<]+<\/a>)/, '\n$1' + anchor3);
+	attachmentDetailsTmplTwoColumn = attachmentDetailsTmplTwoColumn.replace(/(<a[^>]+class="[^"]*view-attachment[^"]*"[^>]*>[^<]*<\/a>)/, '\n$1 | ' + anchor2);
+	attachmentDetailsTmplTwoColumn = attachmentDetailsTmplTwoColumn.replace(/(<(a|button)[^>]+class="[^"]*edit-attachment[^"]*"[^>]*>[^<]*<\/(a|button)>)/, '\n$1' + anchor3);
 	jQuery('#tmpl-attachment-details-two-column').text(attachmentDetailsTmplTwoColumn);
 	var imageDetailsTmpl = jQuery('#tmpl-image-details').text();
 	imageDetailsTmpl = imageDetailsTmpl.replace(/(<input type="button" class="replace-attachment button")/, anchor4 + '\n$1');
