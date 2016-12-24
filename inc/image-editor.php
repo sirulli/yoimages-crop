@@ -107,6 +107,21 @@ function yoimg_edit_thumbnails_page() {
 	global $yoimg_image_size;
 	$yoimg_image_id = esc_html( $_GET ['post'] );
 	$yoimg_image_size = esc_html( $_GET ['size'] );
+
+	$sizes = yoimg_get_image_sizes ();
+	$size = false;
+	foreach ( $sizes as $size_key => $size_value ) {
+		if ( $size_value['crop'] == 1 && $size_value['active'] ) {
+			if ( $size_key == $yoimg_image_size ) {
+				$size = $size_key;
+				break;
+			} else if ( ! $size ) {
+				$size = $size_key;
+			}
+		}
+	}
+	$yoimg_image_size = $size;
+
 	if (current_user_can ( 'edit_post', $yoimg_image_id ) ) {
 		include (YOIMG_CROP_PATH . '/html/edit-image-size.php');
 	} else {
