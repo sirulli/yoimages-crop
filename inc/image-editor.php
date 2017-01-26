@@ -4,103 +4,122 @@ if ( ! defined ( 'ABSPATH' ) ) {
 	die ( 'No script kiddies please!' );
 }
 
-function yoimg_crop_image() {
-	$req_post = esc_html( $_POST['post'] );
-	if ( current_user_can( 'edit_post', $req_post ) ) {
-		$req_size = esc_html( $_POST['size'] );
-		$req_width = esc_html( $_POST['width'] );
-		$req_height = esc_html( $_POST['height'] );
-		$req_x = esc_html( $_POST['x'] );
-		$req_y = esc_html( $_POST['y'] );
-		$req_quality = esc_html( $_POST['quality'] );
+function yoimg_crop_image(){
+	$_required_args = array(
+		'post',
+		'size',
+		'width',
+		'height',
+		'x',
+		'y',
+		'quality',
+	);
+	$_args          = [];
+	foreach( $_required_args as $_key ){
+		$_args[ $_key ] = esc_html( $_POST[ $_key ] );
+	}
+	$result = yoimg_crop_this_image( $_args );
+	do_action( 'yoimg_post_crop_image' );
+	wp_send_json( $result );
+}
+
+
+function yoimg_crop_this_image( $args ){
+	$req_post = esc_html( $args['post'] );
+	if ( current_user_can( 'edit_post', $req_post ) ){
+		$req_size                  = esc_html( $args[ 'size' ] );
+		$req_width                 = esc_html( $args[ 'width' ] );
+		$req_height                = esc_html( $args[ 'height' ] );
+		$req_x                     = esc_html( $args[ 'x' ] );
+		$req_y                     = esc_html( $args[ 'y' ] );
+		$req_quality               = esc_html( $args[ 'quality' ] );
 		$yoimg_retina_crop_enabled = yoimg_is_retina_crop_enabled_for_size( $req_size );
-		$img_path = _load_image_to_edit_path( $req_post );
-		$attachment_metadata = wp_get_attachment_metadata( $req_post );
-		if ( isset( $attachment_metadata['yoimg_attachment_metadata']['crop'][$req_size]['replacement'] ) ) {
-			$replacement = $attachment_metadata['yoimg_attachment_metadata']['crop'][$req_size]['replacement'];
+		$img_path                  = _load_image_to_edit_path( $req_post );
+		$attachment_metadata       = wp_get_attachment_metadata( $req_post );
+		if( isset( $attachment_metadata[ 'yoimg_attachment_metadata' ][ 'crop' ][ $req_size ][ 'replacement' ] ) ){
+			$replacement = $attachment_metadata[ 'yoimg_attachment_metadata' ][ 'crop' ][ $req_size ][ 'replacement' ];
 		} else {
 			$replacement = null;
 		}
-		$has_replacement = ! empty ( $replacement ) && get_post( $replacement );
-		if ( $has_replacement ) {
-			$replacement_path = _load_image_to_edit_path( $replacement );
-			$img_editor = wp_get_image_editor( $replacement_path );
-			$img_editor_retina = wp_get_image_editor( $replacement_path );
+		$has_replacement = !empty ( $replacement ) && get_post( $replacement );
+		if( $has_replacement ){
+			$replacement_path      = _load_image_to_edit_path( $replacement );
+			$img_editor            = wp_get_image_editor( $replacement_path );
+			$img_editor_retina     = wp_get_image_editor( $replacement_path );
 			$full_image_attributes = wp_get_attachment_image_src( $replacement, 'full' );
 		} else {
-			$img_editor = wp_get_image_editor( $img_path );
-			$img_editor_retina = wp_get_image_editor( $img_path );
+			$img_editor            = wp_get_image_editor( $img_path );
+			$img_editor_retina     = wp_get_image_editor( $img_path );
 			$full_image_attributes = wp_get_attachment_image_src( $req_post, 'full' );
 		}
-		if ( is_wp_error( $img_editor ) || is_wp_error( $img_editor_retina ) ) {
+		if( is_wp_error( $img_editor ) || is_wp_error( $img_editor_retina ) ){
 			return false;
 		}
 		$cropped_image_sizes = yoimg_get_image_sizes( $req_size );
-		$is_crop_smaller = $full_image_attributes[1] < $cropped_image_sizes['width'] || $full_image_attributes[2] < $cropped_image_sizes['height'];
-		$crop_width = $cropped_image_sizes['width'];
-		$crop_height = $cropped_image_sizes['height'];
+		$is_crop_smaller     = $full_image_attributes[ 1 ] < $cropped_image_sizes[ 'width' ] || $full_image_attributes[ 2 ] < $cropped_image_sizes[ 'height' ];
+		$crop_width          = $cropped_image_sizes[ 'width' ];
+		$crop_height         = $cropped_image_sizes[ 'height' ];
 		$img_editor->crop( $req_x, $req_y, $req_width, $req_height, $crop_width, $crop_height, false );
 		$img_editor->set_quality( $req_quality );
-		$img_path_parts = pathinfo($img_path);
-		if ( empty( $attachment_metadata['sizes'][$req_size] ) || empty( $attachment_metadata['sizes'][$req_size]['file'] ) ) {
-			$cropped_image_filename = yoimg_get_cropped_image_filename( $img_path_parts['filename'], $crop_width, $crop_height, $img_path_parts['extension'] );
-			$attachment_metadata['sizes'][$req_size] = array(
-				'file' => $cropped_image_filename,
-				'width' => $crop_width,
-				'height' => $crop_height,
-				'mime-type' => $attachment_metadata['sizes']['thumbnail']['mime-type']
-			);
+		$img_path_parts = pathinfo( $img_path );
+		if( empty( $attachment_metadata[ 'sizes' ][ $req_size ] ) || empty( $attachment_metadata[ 'sizes' ][ $req_size ][ 'file' ] ) ){
+			$cropped_image_filename                      = yoimg_get_cropped_image_filename( $img_path_parts[ 'filename' ], $crop_width, $crop_height, $img_path_parts[ 'extension' ] );
+			$attachment_metadata[ 'sizes' ][ $req_size ] = [
+				'file'      => $cropped_image_filename,
+				'width'     => $crop_width,
+				'height'    => $crop_height,
+				'mime-type' => $attachment_metadata[ 'sizes' ][ 'thumbnail' ][ 'mime-type' ]
+			];
 		} else {
-			$cropped_image_filename = $attachment_metadata['sizes'][$req_size]['file'];
+			$cropped_image_filename = $attachment_metadata[ 'sizes' ][ $req_size ][ 'file' ];
 		}
-		$img_editor->save( $img_path_parts['dirname'] . '/' . $cropped_image_filename );
-		if ( $yoimg_retina_crop_enabled ) {
-			$crop_width_retina = $crop_width * 2;
-			$crop_height_retina = $crop_height * 2;
-			$is_crop_retina_smaller = $full_image_attributes[1] < $crop_width_retina || $full_image_attributes[2] < $crop_height_retina;
-			if ( ! $is_crop_retina_smaller ) {
+		$img_editor->save( $img_path_parts[ 'dirname' ] . '/' . $cropped_image_filename );
+		if( $yoimg_retina_crop_enabled ){
+			$crop_width_retina      = $crop_width * 2;
+			$crop_height_retina     = $crop_height * 2;
+			$is_crop_retina_smaller = $full_image_attributes[ 1 ] < $crop_width_retina || $full_image_attributes[ 2 ] < $crop_height_retina;
+			if( !$is_crop_retina_smaller ){
 				$img_editor_retina->crop( $req_x, $req_y, $req_width, $req_height, $crop_width_retina, $crop_height_retina, false );
 				$img_editor_retina->set_quality( $req_quality );
-				$img_retina_path_parts = pathinfo($cropped_image_filename);
-				$cropped_image_retina_filename = $img_retina_path_parts['filename'] . '@2x.' . $img_retina_path_parts['extension']; 
-				$img_editor_retina->save( $img_path_parts['dirname'] . '/' . $cropped_image_retina_filename );
+				$img_retina_path_parts         = pathinfo( $cropped_image_filename );
+				$cropped_image_retina_filename = $img_retina_path_parts[ 'filename' ] . '@2x.' . $img_retina_path_parts[ 'extension' ];
+				$img_editor_retina->save( $img_path_parts[ 'dirname' ] . '/' . $cropped_image_retina_filename );
 			}
 		}
-		$attachment_metadata['sizes'][$req_size]['width'] = $crop_width;
-		$attachment_metadata['sizes'][$req_size]['height'] = $crop_height;
-		if ( empty( $attachment_metadata['yoimg_attachment_metadata']['crop'] ) ) {
-			$attachment_metadata['yoimg_attachment_metadata']['crop'] = array();
+		$attachment_metadata[ 'sizes' ][ $req_size ][ 'width' ]  = $crop_width;
+		$attachment_metadata[ 'sizes' ][ $req_size ][ 'height' ] = $crop_height;
+		if( empty( $attachment_metadata[ 'yoimg_attachment_metadata' ][ 'crop' ] ) ){
+			$attachment_metadata[ 'yoimg_attachment_metadata' ][ 'crop' ] = [];
 		}
-		$attachment_metadata['yoimg_attachment_metadata']['crop'][$req_size] = array(
-				'x' => $req_x,
-				'y' => $req_y,
-				'width' => $req_width,
-				'height' => $req_height
-		);
-		if ( $has_replacement ) {
-			$attachment_metadata['yoimg_attachment_metadata']['crop'][$req_size]['replacement'] = $replacement;
+		$attachment_metadata[ 'yoimg_attachment_metadata' ][ 'crop' ][ $req_size ] = [
+			'x'      => $req_x,
+			'y'      => $req_y,
+			'width'  => $req_width,
+			'height' => $req_height
+		];
+		if( $has_replacement ){
+			$attachment_metadata[ 'yoimg_attachment_metadata' ][ 'crop' ][ $req_size ][ 'replacement' ] = $replacement;
 		}
 		wp_update_attachment_metadata( $req_post, $attachment_metadata );
-		status_header( 200 );
-		header( 'Content-type: application/json; charset=UTF-8' );
-		if ( $yoimg_retina_crop_enabled ) {
-			echo json_encode( array(
-					'filename' => $cropped_image_filename,
-					'smaller' => $is_crop_smaller,
-					'retina_filename' => $cropped_image_retina_filename,
-					'retina_smaller' => $is_crop_retina_smaller )
+
+		if( $yoimg_retina_crop_enabled ){
+			return array(
+				'filename'        => $cropped_image_filename,
+				'smaller'         => $is_crop_smaller,
+				'retina_filename' => $cropped_image_retina_filename,
+				'retina_smaller'  => $is_crop_retina_smaller,
 			);
 		} else {
-			echo json_encode( array(
-					'filename' => $cropped_image_filename,
-					'smaller' => $is_crop_smaller )
+			return array(
+				'filename' => $cropped_image_filename,
+				'smaller'  => $is_crop_smaller,
 			);
 		}
-
-		do_action('yoimg_post_crop_image');
 	}
-	die();
+	return false;
 }
+
+
 
 function yoimg_edit_thumbnails_page() {
 	global $yoimg_image_id;
