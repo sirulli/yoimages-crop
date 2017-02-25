@@ -115,6 +115,9 @@
 .yoimg-crop-now-wrapper {
 	margin-top: 12px;
 	min-height: 30px;
+	float: left;
+	width: 100%;
+	padding-bottom: 5px;
 }
 
 #yoimg-cropper-wrapper .yoimg-crop-now-wrapper a {
