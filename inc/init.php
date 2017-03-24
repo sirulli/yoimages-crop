@@ -6,19 +6,24 @@ if (! defined ( 'ABSPATH' )) {
 if (is_admin () || php_sapi_name () == 'cli') {
 
 	define ( 'YOIMG_CROP_PATH', dirname ( __FILE__ ) );
-	
+
 	define ( 'YOIMG_DEFAULT_CROP_ENABLED', TRUE );
 	define ( 'YOIMG_DEFAULT_CROP_QUALITIES', serialize ( array (
 			100,
 			80,
-			60 
+			60
 	) ) );
 	$yoimg_crop_settings = get_option ( 'yoimg_crop_settings' );
+  // var_dump($yoimg_crop_settings);
+  // die();
 	define ( 'YOIMG_CROP_ENABLED', $yoimg_crop_settings && isset ( $yoimg_crop_settings ['cropping_is_active'] ) ? $yoimg_crop_settings ['cropping_is_active'] : YOIMG_DEFAULT_CROP_ENABLED );
 	define ( 'YOIMG_EDIT_IMAGE_ACTION', 'yoimg-edit-thumbnails' );
-	define ( 'YOIMG_DEFAULT_CROP_RETINA_ENABLED', FALSE );
-	define ( 'YOIMG_CROP_RETINA_ENABLED', $yoimg_crop_settings && isset ( $yoimg_crop_settings ['retina_cropping_is_active'] ) ? $yoimg_crop_settings ['retina_cropping_is_active'] : YOIMG_DEFAULT_CROP_RETINA_ENABLED );
-	define ( 'YOIMG_CROP_URL', plugins_url ( plugin_basename ( YOIMG_CROP_PATH ) ) );
+  define ( 'YOIMG_DEFAULT_CROP_RETINA_ENABLED', FALSE );
+	define ( 'YOIMG_DEFAULT_CACHEBUSTER_ENABLED', FALSE );
+  define ( 'YOIMG_CROP_RETINA_ENABLED', $yoimg_crop_settings && isset ( $yoimg_crop_settings ['retina_cropping_is_active'] ) ? $yoimg_crop_settings ['retina_cropping_is_active'] : YOIMG_DEFAULT_CROP_RETINA_ENABLED );
+	define ( 'YOIMG_CACHEBUSTER_ENABLED', $yoimg_crop_settings && isset ( $yoimg_crop_settings ['cachebuster_is_active'] ) ? $yoimg_crop_settings ['cachebuster_is_active'] : YOIMG_DEFAULT_CACHEBUSTER_ENABLED );
+  // define ( 'YOIMG_CROP_URL', plugins_url ( plugin_basename ( YOIMG_CROP_PATH ) ) );
+	define ( 'YOIMG_CROP_URL', '/../app/plugins/yoimages/vendor/sirulli/yoimages-crop/inc' ); // TODO: work out why this is wrong
 	require_once (YOIMG_CROP_PATH . '/utils.php');
 	if (YOIMG_CROP_ENABLED) {
 		require_once (YOIMG_CROP_PATH . '/image-editor.php');
@@ -39,7 +44,7 @@ function yoimg_crop_load_styles_and_scripts($hook) {
 			$mode = get_user_option ( 'media_library_mode', get_current_user_id () ) ? get_user_option ( 'media_library_mode', get_current_user_id () ) : 'grid';
 			$modes = array (
 					'grid',
-					'list' 
+					'list'
 			);
 			if (isset ( $_GET ['mode'] ) && in_array ( $_GET ['mode'], $modes )) {
 				$mode = $_GET ['mode'];
@@ -61,10 +66,10 @@ function yoimg_crop_load_styles_and_scripts($hook) {
 		wp_enqueue_style ( 'yoimg-cropper-css', YOIMG_CROP_URL . '/js/cropper/cropper.min.css' );
 		wp_enqueue_script( 'wp-pointer' );
 		wp_enqueue_script ( 'yoimg-cropper-js', YOIMG_CROP_URL . '/js/cropper/cropper.min.js', array (
-				'jquery' 
+				'jquery'
 		), false, true );
 		wp_enqueue_script ( 'yoimg-cropping-js', YOIMG_CROP_URL . '/js/yoimg-cropping.js', array (
-				'yoimg-cropper-js' 
+				'yoimg-cropper-js'
 		), false, true );
 	}
 }

@@ -153,7 +153,7 @@ function yoimgInitCropImage(doImmediateCrop) {
 			var currIndex = 0;
 			var activeIndex = 0;
 			var scrollLeft = 0;
-			var mediaRouterAnchors = mediaRouter.find('a'); 
+			var mediaRouterAnchors = mediaRouter.find('a');
 			mediaRouterAnchors.each(function(index) {
 				var currEl = jQuery(this);
 				mediaRouterWidth += parseInt(currEl.outerWidth(true), 10);
@@ -167,7 +167,7 @@ function yoimgInitCropImage(doImmediateCrop) {
 				function _mediaFrameVisible(index) {
 					var minScrollLeft = arrowWidth + mediaFrameRouterWidth;
 					for (var i = 0; i <= index; i++) {
-						minScrollLeft -= parseInt(jQuery(mediaRouterAnchors[i]).outerWidth(true), 10); 
+						minScrollLeft -= parseInt(jQuery(mediaRouterAnchors[i]).outerWidth(true), 10);
 					}
 					return scrollLeft < minScrollLeft;
 				}
@@ -175,7 +175,7 @@ function yoimgInitCropImage(doImmediateCrop) {
 					if ((index != currIndex || forced === true) && index > -1 && index < mediaRouterAnchors.length) {
 						scrollLeft = arrowWidth;
 						for (var i = 0; i < index; i++) {
-							scrollLeft -= parseInt(jQuery(mediaRouterAnchors[i]).outerWidth(true), 10); 
+							scrollLeft -= parseInt(jQuery(mediaRouterAnchors[i]).outerWidth(true), 10);
 						}
 						var doScroll = (scrollLeft * -1) - parseInt(jQuery(mediaRouterAnchors[index]).outerWidth(true), 10) - arrowWidth < hiddenWidth;
 						if (doScroll) {
@@ -184,7 +184,7 @@ function yoimgInitCropImage(doImmediateCrop) {
 							} else {
 								mediaRouter.animate({
 									left : scrollLeft + 'px'
-								}, 300);	
+								}, 300);
 							}
 							currIndex = index;
 						}
@@ -228,7 +228,6 @@ function yoimgInitCropImage(doImmediateCrop) {
 function yoimgCancelCropImage() {
 	jQuery('#yoimg-cropper-wrapper').remove();
 }
-
 function yoimgCropImage() {
 	jQuery('#yoimg-cropper-wrapper .spinner').addClass('is-active');
 	var data = jQuery('#yoimg-cropper').cropper('getData');
@@ -240,7 +239,10 @@ function yoimgCropImage() {
 		jQuery('img[src*=\'' + response.filename + '\']').each(function() {
 			var img = jQuery(this);
 			var imgSrc = img.attr('src');
-			imgSrc = imgSrc + (imgSrc.indexOf('?') > -1 ? '&' : '?') + '_r=' + Math.floor((Math.random() * 100) + 1);
+      console.log('img');
+      console.log(img);
+      console.log(imgSrc);
+			imgSrc = imgSrc + (imgSrc.indexOf('?') > -1 ? '&' : '?') + '_r=' + Math.floor((Math.random() * 100) + 1); // Revision (_r) here clears the cache locally
 			img.attr('src', imgSrc);
 			if (img.parents('.yoimg-not-existing-crop').length) {
 				img.parents('.yoimg-not-existing-crop').removeClass('yoimg-not-existing-crop').find('.message.error').hide();

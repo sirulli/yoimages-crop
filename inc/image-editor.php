@@ -18,6 +18,7 @@ function yoimg_crop_image(){
 	foreach( $_required_args as $_key ){
 		$_args[ $_key ] = esc_html( $_POST[ $_key ] );
 	}
+	do_action( 'yoimg_pre_crop_image' );
 	$result = yoimg_crop_this_image( $_args );
 	do_action( 'yoimg_post_crop_image' );
 	wp_send_json( $result );
@@ -35,6 +36,25 @@ function yoimg_crop_this_image( $args ){
 		$yoimg_retina_crop_enabled = yoimg_is_retina_crop_enabled_for_size( $req_size );
 		$img_path = _load_image_to_edit_path( $req_post );
 		$attachment_metadata = wp_get_attachment_metadata( $req_post );
+
+		// Append a timestamp to images to clear external caches.
+    $crop_options = get_option ( 'yoimg_crop_settings' );
+    if( $crop_options ['cachebusting_is_active'] ) {
+      // Extract path and file information to use for resizing file
+      $filepath = pathinfo($attachment_metadata['file']);
+      // Postfix the current timestamp to cache
+      $new_filename_postfix = '-crop-' . time();
+      // Iterate through Square, Landscape, Portait, Letterbox
+      foreach ($attachment_metadata['sizes'] as $crop_type => &$size) {
+        // Only update the filename on the crop we're updating...
+        if( $crop_type == $args['size'] ) {
+          // Replace the file of this crop with the new name including the cachebusting extensio
+          $size['file'] = $filepath['dirname'] . '/' . $filepath['filename'] . $new_filename_postfix . '-' . $req_width . 'x' . $req_height . '.' . $filepath['extension']; // TODO: File extension needs to be dynamic
+        }
+      }
+      wp_update_attachment_metadata($req_post, $attachment_metadata);
+    }
+
 		if ( isset( $attachment_metadata['yoimg_attachment_metadata']['crop'][$req_size]['replacement'] ) ) {
 			$replacement = $attachment_metadata['yoimg_attachment_metadata']['crop'][$req_size]['replacement'];
 		} else {
