@@ -39,21 +39,25 @@ function yoimg_crop_this_image( $args ){
 
 		// Append a timestamp to images to clear external caches.
     $crop_options = get_option ( 'yoimg_crop_settings' );
-    if( $crop_options ['cachebusting_is_active'] ) {
-      // Extract path and file information to use for resizing file
-      $filepath = pathinfo($attachment_metadata['file']);
-      // Postfix the current timestamp to cache
-      $new_filename_postfix = '-crop-' . time();
-      // Iterate through Square, Landscape, Portait, Letterbox
-      foreach ($attachment_metadata['sizes'] as $crop_type => &$size) {
-        // Only update the filename on the crop we're updating...
-        if( $crop_type == $args['size'] ) {
-          // Replace the file of this crop with the new name including the cachebusting extensio
-          $size['file'] = $filepath['dirname'] . '/' . $filepath['filename'] . $new_filename_postfix . '-' . $req_width . 'x' . $req_height . '.' . $filepath['extension']; // TODO: File extension needs to be dynamic
+    // Extract path and file information to use for resizing file
+    $filepath = pathinfo($attachment_metadata['file']);
+    // Postfix the current timestamp to cache
+    $new_filename_postfix = '-crop-' . time();
+    // Iterate through Square, Landscape, Portait, Letterbox
+    foreach ($attachment_metadata['sizes'] as $crop_type => &$size) {
+      // Only update the filename on the crop we're updating...
+      if( $crop_type == $args['size'] ) {
+        // Save pre crop filename to pass to frontend preview
+        $pre_crop_filename = $size['file'];
+        // Replace the file of this crop with the new name including the cachebusting extension
+        // Only if the cachebusting setting is on in the YoImages admin_enqueue_scripts    // Only save if cachebusting has been enabled in the YoImages settings.
+        if( $crop_options ['cachebusting_is_active'] ) {
+          $size['file'] = $filepath['filename'] . $new_filename_postfix . '-' . $req_width . 'x' . $req_height . '.' . $filepath['extension'];
         }
       }
-      wp_update_attachment_metadata($req_post, $attachment_metadata);
     }
+    // Save crop urls to post metadata
+    wp_update_attachment_metadata($req_post, $attachment_metadata);
 
 		if ( isset( $attachment_metadata['yoimg_attachment_metadata']['crop'][$req_size]['replacement'] ) ) {
 			$replacement = $attachment_metadata['yoimg_attachment_metadata']['crop'][$req_size]['replacement'];
@@ -122,6 +126,7 @@ function yoimg_crop_this_image( $args ){
 		wp_update_attachment_metadata( $req_post, $attachment_metadata );
 		if( $yoimg_retina_crop_enabled ){
 			return array(
+				'previous_filename' => $pre_crop_filename,
 				'filename'        => $cropped_image_filename,
 				'smaller'         => $is_crop_smaller,
 				'retina_filename' => $cropped_image_retina_filename,
@@ -129,6 +134,7 @@ function yoimg_crop_this_image( $args ){
 			);
 		} else {
 			return array(
+				'previous_filename' => $pre_crop_filename,
 				'filename' => $cropped_image_filename,
 				'smaller'  => $is_crop_smaller,
 			);

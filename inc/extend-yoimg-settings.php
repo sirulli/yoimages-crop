@@ -91,12 +91,10 @@ function yoimg_crop_settings_cropping_sizes_callback() {
 // Create the cachebuster setting checkbox
 function yoimg_crop_settings_cachebust_new_crops_callback() {
 	$crop_options = get_option ( 'yoimg_crop_settings' );
-  var_dump($crop_options);
   $check_value = '';
   if( $crop_options['cachebusting_is_active'] || YOIMG_DEFAULT_CACHEBUSTER_ENABLED && !isset($crop_options['cachebusting_is_active']) ) {
     $check_value = 'checked="checked"';
   }
-  var_dump($check_value);
 
 	printf ( '<input type="checkbox" id="cachebusting_is_active" class="cachebusting_is_active-dep" name="yoimg_crop_settings[cachebusting_is_active]" value="TRUE" %s />
 				<p class="description">' . __ ( 'Generate a new filename after cropping images so that they are updated by external caches and CDNs.', YOIMG_DOMAIN ) . '</p>',
@@ -148,11 +146,7 @@ function yoimg_crop_settings_sanitize($input) {
 	} else {
 		$new_input ['cachebusting_is_active'] = FALSE;
 	}
-  var_dump($input);
-  var_dump($new_input);
-  die();
 
-  // $new_input ['cachebusting_is_active'] = TRUE;
 	if (isset ( $input ['crop_sizes'] )) {
 		$there_is_one_manual_crop_active = FALSE;
 		foreach ( $input['crop_sizes'] as $crop_size_id => $crop_size_option ) {
