@@ -14,16 +14,15 @@ if (is_admin () || php_sapi_name () == 'cli') {
 			60
 	) ) );
 	$yoimg_crop_settings = get_option ( 'yoimg_crop_settings' );
-  // var_dump($yoimg_crop_settings);
-  // die();
+
 	define ( 'YOIMG_CROP_ENABLED', $yoimg_crop_settings && isset ( $yoimg_crop_settings ['cropping_is_active'] ) ? $yoimg_crop_settings ['cropping_is_active'] : YOIMG_DEFAULT_CROP_ENABLED );
 	define ( 'YOIMG_EDIT_IMAGE_ACTION', 'yoimg-edit-thumbnails' );
   define ( 'YOIMG_DEFAULT_CROP_RETINA_ENABLED', FALSE );
 	define ( 'YOIMG_DEFAULT_CACHEBUSTER_ENABLED', FALSE );
   define ( 'YOIMG_CROP_RETINA_ENABLED', $yoimg_crop_settings && isset ( $yoimg_crop_settings ['retina_cropping_is_active'] ) ? $yoimg_crop_settings ['retina_cropping_is_active'] : YOIMG_DEFAULT_CROP_RETINA_ENABLED );
 	define ( 'YOIMG_CACHEBUSTER_ENABLED', $yoimg_crop_settings && isset ( $yoimg_crop_settings ['cachebuster_is_active'] ) ? $yoimg_crop_settings ['cachebuster_is_active'] : YOIMG_DEFAULT_CACHEBUSTER_ENABLED );
-  // define ( 'YOIMG_CROP_URL', plugins_url ( plugin_basename ( YOIMG_CROP_PATH ) ) );
-	define ( 'YOIMG_CROP_URL', '/../app/plugins/yoimages/vendor/sirulli/yoimages-crop/inc' ); // TODO: work out why the base url is sometimes wrong...
+  define ( 'YOIMG_CROP_URL', plugins_url ( plugin_basename ( YOIMG_CROP_PATH ) ) );
+
 	require_once (YOIMG_CROP_PATH . '/utils.php');
 	if (YOIMG_CROP_ENABLED) {
 		require_once (YOIMG_CROP_PATH . '/image-editor.php');
