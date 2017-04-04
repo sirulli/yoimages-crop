@@ -96,7 +96,7 @@ function yoimg_crop_settings_cachebust_new_crops_callback() {
     $check_value = 'checked="checked"';
   }
 
-	printf ( '<input type="checkbox" id="cachebusting_is_active-id" class="cachebusting_is_active-dep" name="yoimg_crop_settings[cachebusting_is_active]" value="TRUE" %s />
+	printf ( '<input type="checkbox" id="cachebusting_is_active" class="cropping_is_active-dep" name="yoimg_crop_settings[cachebusting_is_active]" value="TRUE" %s />
 				<p class="description">' . __ ( 'Generate a new filename after cropping images so that they are updated by external caches and CDNs.', YOIMG_DOMAIN ) . '</p>',
         $check_value );
 }
