@@ -51,7 +51,7 @@ function yoimg_crop_this_image( $args ){
         $pre_crop_filename = $size['file'];
         // Replace the file of this crop with the new name including the cachebusting extension
         // Only if the cachebusting setting is on in the YoImages admin_enqueue_scripts    // Only save if cachebusting has been enabled in the YoImages settings.
-        if( $crop_options ['cachebusting_is_active'] ) {
+        if( isset($crop_options ['cachebusting_is_active']) && $crop_options ['cachebusting_is_active'] ) {
           $size['file'] = $filepath['filename'] . $new_filename_postfix . '-' . $req_width . 'x' . $req_height . '.' . $filepath['extension'];
         }
       }

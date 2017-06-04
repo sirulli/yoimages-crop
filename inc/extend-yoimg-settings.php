@@ -92,7 +92,7 @@ function yoimg_crop_settings_cropping_sizes_callback() {
 function yoimg_crop_settings_cachebust_new_crops_callback() {
 	$crop_options = get_option ( 'yoimg_crop_settings' );
   $check_value = '';
-  if( $crop_options['cachebusting_is_active'] || YOIMG_DEFAULT_CACHEBUSTER_ENABLED && !isset($crop_options['cachebusting_is_active']) ) {
+  if( (isset($crop_options['cachebusting_is_active']) && $crop_options['cachebusting_is_active']) || (YOIMG_DEFAULT_CACHEBUSTER_ENABLED && !isset($crop_options['cachebusting_is_active'])) ) {
     $check_value = 'checked="checked"';
   }
 
