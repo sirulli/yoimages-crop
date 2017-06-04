@@ -153,7 +153,7 @@ function yoimgInitCropImage(doImmediateCrop) {
 			var currIndex = 0;
 			var activeIndex = 0;
 			var scrollLeft = 0;
-			var mediaRouterAnchors = mediaRouter.find('a'); 
+			var mediaRouterAnchors = mediaRouter.find('a');
 			mediaRouterAnchors.each(function(index) {
 				var currEl = jQuery(this);
 				mediaRouterWidth += parseInt(currEl.outerWidth(true), 10);
@@ -167,7 +167,7 @@ function yoimgInitCropImage(doImmediateCrop) {
 				function _mediaFrameVisible(index) {
 					var minScrollLeft = arrowWidth + mediaFrameRouterWidth;
 					for (var i = 0; i <= index; i++) {
-						minScrollLeft -= parseInt(jQuery(mediaRouterAnchors[i]).outerWidth(true), 10); 
+						minScrollLeft -= parseInt(jQuery(mediaRouterAnchors[i]).outerWidth(true), 10);
 					}
 					return scrollLeft < minScrollLeft;
 				}
@@ -175,7 +175,7 @@ function yoimgInitCropImage(doImmediateCrop) {
 					if ((index != currIndex || forced === true) && index > -1 && index < mediaRouterAnchors.length) {
 						scrollLeft = arrowWidth;
 						for (var i = 0; i < index; i++) {
-							scrollLeft -= parseInt(jQuery(mediaRouterAnchors[i]).outerWidth(true), 10); 
+							scrollLeft -= parseInt(jQuery(mediaRouterAnchors[i]).outerWidth(true), 10);
 						}
 						var doScroll = (scrollLeft * -1) - parseInt(jQuery(mediaRouterAnchors[index]).outerWidth(true), 10) - arrowWidth < hiddenWidth;
 						if (doScroll) {
@@ -184,7 +184,7 @@ function yoimgInitCropImage(doImmediateCrop) {
 							} else {
 								mediaRouter.animate({
 									left : scrollLeft + 'px'
-								}, 300);	
+								}, 300);
 							}
 							currIndex = index;
 						}
@@ -228,7 +228,6 @@ function yoimgInitCropImage(doImmediateCrop) {
 function yoimgCancelCropImage() {
 	jQuery('#yoimg-cropper-wrapper').remove();
 }
-
 function yoimgCropImage() {
 	jQuery('#yoimg-cropper-wrapper .spinner').addClass('is-active');
 	var data = jQuery('#yoimg-cropper').cropper('getData');
@@ -237,10 +236,21 @@ function yoimgCropImage() {
 	data['size'] = yoimg_image_size;
 	data['quality'] = jQuery('#yoimg-cropper-quality').val();
 	jQuery.post(ajaxurl, data, function(response) {
-		jQuery('img[src*=\'' + response.filename + '\']').each(function() {
-			var img = jQuery(this);
-			var imgSrc = img.attr('src');
-			imgSrc = imgSrc + (imgSrc.indexOf('?') > -1 ? '&' : '?') + '_r=' + Math.floor((Math.random() * 100) + 1);
+    // Use the existing filename and replace with the new filename
+		jQuery('img[src*=\'' + response.previous_filename + '\']').each(function() {
+      // Define the image object and current file name and path
+      var img = jQuery(this);
+      var imgSrc = img.attr('src');
+      // Check if cachebusting is enabled or not.
+      if(response.previous_filename === response.filename) {
+        // If cachebusting isn't enabled then do frontend cachebust
+  			imgSrc = imgSrc + (imgSrc.indexOf('?') > -1 ? '&' : '?') + '_frontend_cachebust=' + Math.floor((Math.random() * 100) + 1);
+      } else {
+        // With cachebusting enabled we can use the new filename as the thumbnail
+        // replacing the existing filename with the new one in the file path.
+        imgSrc = imgSrc.replace(response.previous_filename, response.filename);
+      }
+      // Update the image tag src attribute to show the new image
 			img.attr('src', imgSrc);
 			if (img.parents('.yoimg-not-existing-crop').length) {
 				img.parents('.yoimg-not-existing-crop').removeClass('yoimg-not-existing-crop').find('.message.error').hide();
