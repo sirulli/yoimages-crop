@@ -5,7 +5,7 @@ if ( ! defined ( 'ABSPATH' ) ) {
 }
 
 function yoimg_crop_image(){
-	$_required_args = [
+	$_required_args = array(
 		'post',
 		'size',
 		'width',
@@ -13,8 +13,8 @@ function yoimg_crop_image(){
 		'x',
 		'y',
 		'quality',
-	];
-	$_args          = [];
+	);
+	$_args          = array();
 	foreach( $_required_args as $_key ){
 		$_args[ $_key ] = esc_html( $_POST[ $_key ] );
 	}
