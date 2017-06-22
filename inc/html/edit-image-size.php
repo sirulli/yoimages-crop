@@ -74,7 +74,7 @@ if ( $has_replacement ) {
 <?php if ( ! $is_partial_rendering ) { ?>
 <div id="yoimg-cropper-wrapper">
 	<div class="media-modal wp-core-ui">
-		<button type="button" class="button-link media-modal-close" onclick="javascript:yoimgCancelCropImage();">
+		<button type="button" class="media-modal-close" onclick="javascript:yoimgCancelCropImage();">
 			<span class="media-modal-icon">
 				<span class="screen-reader-text"><?php _e( 'Close crop panel', YOIMG_DOMAIN ); ?></span>
 			</span>
