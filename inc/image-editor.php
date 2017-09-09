@@ -68,14 +68,13 @@ function yoimg_crop_this_image( $args ){
 		if ( $has_replacement ) {
 			$replacement_path = _load_image_to_edit_path( $replacement );
 			$img_editor = wp_get_image_editor( $replacement_path );
-			$img_editor_retina = wp_get_image_editor( $replacement_path );
 			$full_image_attributes = wp_get_attachment_image_src( $replacement, 'full' );
 		} else {
 			$img_editor = wp_get_image_editor( $img_path );
-			$img_editor_retina = wp_get_image_editor( $img_path );
 			$full_image_attributes = wp_get_attachment_image_src( $req_post, 'full' );
 		}
-		if ( is_wp_error( $img_editor ) || is_wp_error( $img_editor_retina ) ) {
+		if ( is_wp_error( $img_editor ) ) {
+			yoimg_log( $img_editor );
 			return false;
 		}
 		$cropped_image_sizes = yoimg_get_image_sizes( $req_size );
@@ -98,6 +97,11 @@ function yoimg_crop_this_image( $args ){
 		}
 		$img_editor->save( $img_path_parts['dirname'] . '/' . $cropped_image_filename );
 		if ( $yoimg_retina_crop_enabled ) {
+			$img_editor_retina = wp_get_image_editor( $has_replacement ? $replacement_path : $img_path );
+			if ( is_wp_error( $img_editor_retina ) ) {
+				yoimg_log( $img_editor_retina );
+				return false;
+			}
 			$crop_width_retina = $crop_width * 2;
 			$crop_height_retina = $crop_height * 2;
 			$is_crop_retina_smaller = $full_image_attributes[1] < $crop_width_retina || $full_image_attributes[2] < $crop_height_retina;
