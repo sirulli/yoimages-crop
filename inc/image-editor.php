@@ -35,7 +35,7 @@ function yoimg_crop_this_image( $args ){
 		$req_quality               = esc_html( $args[ 'quality' ] );
 		$yoimg_retina_crop_enabled = yoimg_is_retina_crop_enabled_for_size( $req_size );
 		$img_path = _load_image_to_edit_path( $req_post );
-		$attachment_metadata = wp_get_attachment_metadata( $req_post );
+		$attachment_metadata = maybe_unserialize( wp_get_attachment_metadata( $req_post ) );
 
 		// Append a timestamp to images to clear external caches.
     $crop_options = get_option ( 'yoimg_crop_settings' );
